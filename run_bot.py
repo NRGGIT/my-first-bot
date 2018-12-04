@@ -6,7 +6,7 @@ from config import *
 
 
 def write_msg(user_id, text):
-    vk_bot.methcd('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
+    vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
 
 
 vk_bot = vk_api.VkApi(token=ACCESS_TOKEN)
@@ -19,13 +19,14 @@ while True:
         'https://{server}?act={act}&key={key}&ts={ts}&wait=500'.format(server=server,
                                                                        act='a_check',
                                                                        key=key,
-                                                                       ts=ts)).json
+                                                                       ts=ts)).json()
 
     update = long_poll['updates']
     if update[0][0] == 4:
+        print(update)
         user_id = update[0][3]
         user_name = vk_bot.method('users.get', {'user_ids': user_id})
         write_msg(user_id, 'Привет, ' + (user_name[0]['first_name']))
         print(str(user_name[0]['first_name']) + ' ' +
-              str(user_name[0]['last_name']) + ' написал(а) боту - ' +  str(update[0][6]))
+              str(user_name[0]['last_name']) + ' написал(а) боту - ' + str(update[0][6]))
     ts = long_poll['ts']
