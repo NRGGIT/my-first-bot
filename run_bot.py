@@ -2,6 +2,10 @@ import simplejson as json
 import requests, time
 from config import *
 
+#коммент для проверки git
+value = 'переменная для проверки git'
+
+
 MASTER_ID = 2299551
 sent_posts_history_dict = {}
 lp_update_time = time.time()
