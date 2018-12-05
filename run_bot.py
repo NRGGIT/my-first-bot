@@ -9,6 +9,12 @@ def write_msg(user_id, text):
     vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
 
 
+
+def write_msg_photo(user_id, text, photo_url):
+    vk_bot.method('messages.send',
+                  {'user_id': user_id, 'attachment': photo_url, 'message': text, 'random_id': random.randint(0, 1000)})
+
+
 vk_bot = vk_api.VkApi(token=ACCESS_TOKEN)
 long_poll = vk_bot.method('messages.getLongPollServer', {'need_pts': 1, 'lp_version': 3})
 server, key, ts = long_poll['server'], long_poll['key'], long_poll['ts']
@@ -27,6 +33,12 @@ while True:
         user_id = update[0][3]
         user_name = vk_bot.method('users.get', {'user_ids': user_id})
         write_msg(user_id, 'Привет, ' + (user_name[0]['first_name']))
+
+
+        if 'картинк' in update[0][6]:
+            write_msg_photo(user_id, 'вот тебе огненная картинка', 'photo-171720905_456239025')
+
+
         print(str(user_name[0]['first_name']) + ' ' +
               str(user_name[0]['last_name']) + ' написал(а) боту - ' + str(update[0][6]))
     ts = long_poll['ts']
