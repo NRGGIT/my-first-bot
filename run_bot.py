@@ -4,6 +4,7 @@ import requests
 import vk_api
 from config import *
 
+# dklk;k
 
 
 def write_msg(user_id, text):
